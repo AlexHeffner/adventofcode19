@@ -31,21 +31,21 @@ class ocs {
     return vector;
   }
   public static void main(String[] args) {
-      System.out.println("Hello, World!"); 
-      // int [] masses = {12,14,1969,100756};
-      // for(int i =0; i < 4;i++){
-      //   System.out.println("for mass" + masses[i] + " the fule is " + getFuleOfFule(masses[i])); 
-      // }
-      String filename = "input/input1.txt";
-      Vector<Integer> list = getListOfMass(filename);
-      if(list.size() < 1){
-        System.out.println("Error: reading list");
-        return;
-      }
-      int sum = 0;
-      for(int x = 0; x < list.size() ;x++){
-        sum += getFuleOfFule(list.get(x));
-      }
-      System.out.println("Sum of all fule is: " + sum );
+    System.out.println("Hello, World!"); 
+    // int [] masses = {12,14,1969,100756};
+    // for(int i =0; i < 4;i++){
+    //   System.out.println("for mass" + masses[i] + " the fule is " + getFuleOfFule(masses[i])); 
+    // }
+    String filename = "input/input1.txt";
+    Vector<Integer> list = getListOfMass(filename);
+    if(list.size() < 1){
+      System.out.println("Error: reading list");
+      return;
+    }
+    int sum = 0;
+    for(int x = 0; x < list.size() ;x++){
+      sum += getFuleOfFule(list.get(x));
+    }
+    System.out.println("Sum of all fule is: " + sum );
   }
 }
