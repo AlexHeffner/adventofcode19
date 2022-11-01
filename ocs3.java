@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.lang.Math;
 
 public class ocs3 {
   public static class Point{
@@ -17,17 +19,24 @@ public class ocs3 {
       this.x = point.x;
       this.y = point.y;
     }
+    public Point(int x, int y) {
+      this.x = x;
+      this.y = y;
+    }
   }
   public static class Line{
     Point start;
     Point end;
+    char direction;
     public Line(){
       this.start = new Point();
       this.end = new Point();
+      this.direction = 'S';
     }
     public Line(Line line){
       this.start = new Point(line.start);
       this.end = new Point(line.end);
+      this.direction = 'S';
     }
   }
   public static Vector<Line> getListOfLines(String line1){
@@ -53,15 +62,19 @@ public class ocs3 {
       switch(value.charAt(0)){
         case 'U':
           line.end.y += distance;
+          line.direction = 'V';
           break;
         case 'D':
           line.end.y -= distance;
+          line.direction = 'V';
           break;
         case 'R':
           line.end.x += distance;
+          line.direction = 'H';
           break;
         case 'L':
           line.end.x -= distance;
+          line.direction = 'H';
           break;
         default:
           System.out.println("ERROR Unknonw direction " + value.charAt(0));
@@ -80,6 +93,26 @@ public class ocs3 {
       System.out.println("{" + lines.get(i).start.x + ", "+ lines.get(i).start.y + "} {"+ lines.get(i).end.x + ", "+ lines.get(i).end.y+ "}");
     }
     System.out.println("-------------------");
+  }
+  public static Point intersection_of_lines(Line line1, Line line2){
+    if(line1.direction == line2.direction){
+      return new Point();
+    }
+    if(line1.direction == 'V'){ // line is vertical
+      if((line2.start.x<= line1.start.x  && line1.start.x <=line2.end.x) || (line2.start.x>=line1.start.x && line1.start.x >=line2.end.x)){ // if x value of line1 is in range ofx value of line 2
+        if((line1.start.y<=line2.start.y && line2.start.y <=line1.end.y) || (line1.start.y >=line2.start.y && line2.start.y>=line1.end.y)) {//and if value of y on line2 is in range of y values for line1
+          return new Point(line1.start.x, line2.start.y);
+        }
+      }
+      return new Point();
+    }else{ // line1 is horizontal
+      if((line1.start.x<= line2.start.x  && line2.start.x <=line1.end.x) || (line1.start.x>=line2.start.x && line2.start.x >=line1.end.x)){ // if x value of line1 is in range ofx value of line 2
+        if((line2.start.y<=line1.start.y && line1.start.y <=line2.end.y) || (line2.start.y >=line1.start.y && line1.start.y>=line2.end.y)) {//and if value of y on line2 is in range of y values for line1
+          return new Point(line2.start.x, line1.start.y);
+        }
+      }
+      return new Point();
+    }
   }
   public static void main(String[] args) {
     String filename = "input/input3test.txt";
@@ -103,7 +136,17 @@ public class ocs3 {
 
     Vector<Line> lines1 = getListOfLines(input1);
     Vector<Line> lines2 = getListOfLines(input2);
-    
+    PriorityQueue<Integer> minDistance = new PriorityQueue<Integer>(); // defaults to min heap
+    for( int i = 0; i < lines1.size(); i++){
+      for(int j = 0; j < lines2.size(); j++){
+        Point temp = intersection_of_lines(lines1.get(i), lines2.get(j));
+        if (temp.x + temp.y != 0){
+          minDistance.add(Math.abs(temp.x) + Math.abs(temp.y));
+//          System.out.println("intersection at: "+ temp.x + ", " + temp.y);
+        }
+      }
+    }
+    System.out.println("final answer: " + minDistance.peek());
     // printLine(lines1);
     // printLine(lines2);
   }
