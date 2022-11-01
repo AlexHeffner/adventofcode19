@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.lang.Math;
 
+//Min execution 2 ms
 public class ocs3 {
   public static class Point{
     int x;
@@ -115,6 +116,10 @@ public class ocs3 {
     }
   }
   public static void main(String[] args) {
+    long minExecTime = 1000000, execTime;
+    for (int i = 0; i < 100; i++) {
+      long startTmst = System.currentTimeMillis();
+
     String filename = "input/input3test.txt";
     Vector<String> inputs = new Vector<String>();
     try{
@@ -137,9 +142,9 @@ public class ocs3 {
     Vector<Line> lines1 = getListOfLines(input1);
     Vector<Line> lines2 = getListOfLines(input2);
     PriorityQueue<Integer> minDistance = new PriorityQueue<Integer>(); // defaults to min heap
-    for( int i = 0; i < lines1.size(); i++){
+    for( int k = 0; k < lines1.size(); k++){
       for(int j = 0; j < lines2.size(); j++){
-        Point temp = intersection_of_lines(lines1.get(i), lines2.get(j));
+        Point temp = intersection_of_lines(lines1.get(k), lines2.get(j));
         if (temp.x + temp.y != 0){
           minDistance.add(Math.abs(temp.x) + Math.abs(temp.y));
 //          System.out.println("intersection at: "+ temp.x + ", " + temp.y);
@@ -147,6 +152,12 @@ public class ocs3 {
       }
     }
     System.out.println("final answer: " + minDistance.peek());
+      execTime = System.currentTimeMillis() - startTmst;
+      System.out.println("Total execution time for a solution: " + execTime + " ms");
+      if (execTime < minExecTime)
+        minExecTime = execTime;
+    }
+    System.out.println("Min execution time: " + minExecTime + " ms");
     // printLine(lines1);
     // printLine(lines2);
   }
